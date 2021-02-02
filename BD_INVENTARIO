@@ -1,0 +1,171 @@
+CREATE DATABASE Inventario_SuperGiros
+
+# TABLAS SIMPLES
+CREATE TABLE estado(
+id_estado INT AUTO_INCREMENT PRIMARY KEY,
+estado VARCHAR(30),
+fecha_hora DATETIME
+)
+
+CREATE TABLE categoria(
+id_cat INT AUTO_INCREMENT PRIMARY KEY,
+nom_cat VARCHAR(30),
+descripcion VARCHAR(30)
+)
+
+CREATE TABLE tipo_persona(
+id_tipoper INT AUTO_INCREMENT PRIMARY KEY,
+tipo_per VARCHAR(30),
+estado_per VARCHAR(30),
+)
+
+#Tablas Dependientes
+
+CREATE TABLE articulo(
+id_articulo INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(40),
+AF INT UNIQUE,
+serie VARCHAR(40),
+imagen VARCHAR(50),
+stock INT,
+id_cat1 INT,
+id_estado1 INT,
+id_persona2 INT,
+id_pdv1 INT,
+CONSTRAINT fk_categoria FOREIGN KEY (id_cat1) REFERENCES categoria(id_cat),
+CONSTRAINT fk_estado FOREIGN KEY (id_estado1) REFERENCES estado(id_estado),
+CONSTRAINT fk_persona1 FOREIGN KEY (id_persona2) REFERENCES persona(id_persona),
+CONSTRAINT fk_PDV FOREIGN KEY (id_pdv1) REFERENCES PDV(id_pdv)
+)
+
+CREATE TABLE PDV(
+id_pdv INT AUTO_INCREMENT PRIMARY KEY,
+centro_costo VARCHAR(30),
+cod_pdv INT UNIQUE,
+IP VARCHAR(30),
+id_persona1 INT,
+CONSTRAINT fk_persona FOREIGN KEY (id_persona1) REFERENCES persona(id_persona)
+)
+
+CREATE TABLE persona(
+id_persona INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(40),
+apellido VARCHAR(40),
+tipo_documento VARCHAR(40),
+num_documento VARCHAR(40),
+direccion VARCHAR(40),
+telefono VARCHAR(40),
+email VARCHAR(40),
+password VARCHAR(40),
+id_tipoper1 INT,
+id_estado2 INT,
+CONSTRAINT fk_tipo_persona FOREIGN KEY (id_tipoper1) REFERENCES tipo_persona(id_tipoper),
+CONSTRAINT fk_estado1 FOREIGN KEY (id_estado2) REFERENCES estado(id_estado)
+)
+
+CREATE TABLE factura(
+id_factura INT AUTO_INCREMENT PRIMARY KEY,
+fecha_ingreso TIMESTAMP,
+id_pdv2 INT,
+id_persona3 INT,
+CONSTRAINT fk_PDV1 FOREIGN KEY (id_pdv2) REFERENCES PDV (id_pdv),
+CONSTRAINT fk_persona2 FOREIGN KEY (id_persona3) REFERENCES persona (id_persona)
+)
+
+#--TABLAS INTERMEDIAS
+CREATE TABLE articulo_factura(
+id_articulo1 INT,
+id_factura1 INT, 
+cantidad INT,
+CONSTRAINT fk_articulo FOREIGN KEY (id_articulo1) REFERENCES articulo (id_articulo),
+CONSTRAINT fk_factura FOREIGN KEY (id_factura1) REFERENCES factura (id_factura)
+)
+
+
+
+
+
+-- Insert
+
+
+--categoria
+INSERT INTO categoria VALUES (1,'Router','Comunicaciones')
+INSERT INTO categoria VALUES (2,'Lector de Barras','Soporte')
+INSERT INTO categoria VALUES (3,'Lector Biométrico','Soporte')
+INSERT INTO categoria VALUES (4,'Mouse','Soporte')
+
+--estado
+
+INSERT INTO estado VALUES (1,'A','2021-02-01')
+INSERT INTO estado VALUES (2,'B','2021-02-01')
+INSERT INTO estado VALUES (3,'Activo','2021-02-01')
+INSERT INTO estado VALUES (4,'Inactivo','2021-02-01')
+
+--persona
+
+INSERT INTO persona VALUES (1,'Jhonnyer Fernando','Galindez Zemanate','CC','1058970819','La paz','3122636230','jhonnyerg@unicauca.edu.co','JHONfer123',4,3)
+INSERT INTO persona VALUES (2,'Luisa Maria','Gomez Burbano','CC','1061730234','Mirador','31234857835','luisama@unicauca.edu.co','luisa123',2,4)
+INSERT INTO persona VALUES (3,'Andry Liliana','Galindez Daza','CC','1063583209','Bella Vista','312829527845','andryg@unicauca.edu.co','andry123',2,3)
+
+--tipo_persona
+
+INSERT INTO tipo_persona VALUES (1,'lider')
+INSERT INTO tipo_persona VALUES (2,'asesor')
+INSERT INTO tipo_persona VALUES (3,'cajero')
+INSERT INTO tipo_persona VALUES (4,'administrativo')
+
+--PDV
+
+INSERT INTO PDV VALUES (1,'CDA Limonar',1092,'192.168.1.2',1)
+INSERT INTO PDV VALUES (2,'CDA Bella Vista',1234,'192.168.1.3',2)
+INSERT INTO PDV VALUES (3,'CDA Club Leones',1256,'192.168.1.4',1)
+INSERT INTO PDV VALUES (4,'CDA Jose Maria Obando',1178,'192.168.1.5',2)
+
+--articulo
+
+INSERT INTO articulo VALUES (1,'Router ZTE',1123,'SF782df','https://gruposupracom.com/wp-content/uploads/2020/11/Router-ZTE-MF283U-supracom.jpg',10,1,1,1,1)
+
+INSERT INTO articulo VALUES (2,'Lector SAT',1343,'HKJS3455','https://sescol.com/wp-content/uploads/2019/01/Lector-codigo-de-barras-SAT-2.jpg',23,2,2,2,2)
+
+
+--factura
+
+INSERT INTO factura VALUES (1,'2021-02-01',1,1)
+INSERT INTO factura VALUES (2,'2021-02-01',2,2)
+INSERT INTO factura VALUES (3,'2021-02-01',3,2)
+
+
+--articulo_factura
+INSERT INTO articulo_factura VALUES (1,1,34)
+INSERT INTO articulo_factura VALUES (2,2,67)
+
+
+#####Consultas
+
+SELECT ar.nombre, ar.AF, pdv.cod_pdv, p.nombre 
+FROM articulo as ar INNER JOIN PDV as pdv on ar.id_pdv1=pdv.id_pdv 
+INNER JOIN persona p on ar.id_persona2=p.id_persona
+INNER JOIN estado es on ar.id_estado1=es.id_estado 
+where es.estado ='Activo'
+
+SELECT ar.nombre, ar.AF, pdv.cod_pdv, p.nombre 
+FROM articulo as ar INNER JOIN PDV as pdv on ar.id_pdv1=pdv.id_pdv 
+INNER JOIN persona p on ar.id_persona2=p.id_persona
+INNER JOIN estado es on ar.id_estado1=es.id_estado 
+WHERE es.estado='B'
+
+
+SELECT p.nombre, es.estado 
+FROM persona p 
+INNER JOIN estado es on p.id_estado2 =es.id_estado 
+WHERE es.estado='Activo'
+
+###############TRIGGER ACTUALIZAR CANTIDAD FACTURA Y STOCK ARTICULO
+DELIMITER //
+create TRIGGER tr_udpStockArticulos AFTER INSERT ON articulo_factura
+FOR EACH ROW BEGIN
+	UPDATE articulo SET stock = stock + NEW.cantidad
+	WHERE articulo.id_articulo = NEW.id_articulo1;
+END
+//
+DELIMITER;
