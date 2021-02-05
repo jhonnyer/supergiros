@@ -1,47 +1,45 @@
 <!-- game almacena cada juego obtenido de games  -->
-<div class="col-md-4" *ngFor="let articulo of articulos">
-    <div id="contenedor">
-        <div id="contenidos">
-            <div id="columna1" class="bg-dark text-white d-flex justify-content-between align-items-center">
-                <div>Nombre</div>
-                <div>Activo Fijo</div>
-                <div>Serie</div>
-                <div>Acción</div>
-            </div>         
-        </div>
-        <div id="contenidos">
-            <div id="columna2" class="text-black d-flex justify-content-between align-items-center">
-                <div>{{articulo.nombre}}</div>
-                <div>{{articulo.AF}}</div>
-                <div>{{articulo.serie}}</div>
-                <div>
-                    <button class="btn btn-danger" (click)="deleteArticulo(articulo.id_articulo)">
+<div class="col-md-4">
+    <div class="Row">
+        <div class="Title">Articulos</div>
+            <div class="Heading bg-dark text-white justify-content-between align-items-center">
+                <div class="Cell">
+                    <p>Nombre</p>
+                </div>
+                <div class="Cell">
+                    <p>Activo Fijo</p>
+                </div>
+                <div class="Cell">
+                    <p>Serie</p>
+                </div>
+                <div class="Cell">
+                    <p>Eliminar</p>
+                </div>
+                <div class="Cell">
+                    <p>Editar</p>
+                </div>
+            </div> 
+            <div class="Row" *ngFor="let articulo of articulos">
+                <!-- <div class="Cell">
+                    <img [src]="articulo.imagen" class="card-img-top" alt="">
+                </div> -->
+                <div class="Cell">
+                    <p>{{articulo.nombre}}</p>
+                </div>
+                <div class="Cell">
+                    <p>{{articulo.AF}}</p>
+                </div>
+                <div class="Cell">
+                    <p>{{articulo.serie}}</p>
+                </div>
+                <div class="Cell" style="background-color:  rgb(145, 58, 58);">
+                    <button class="cell btn btn-danger" (click)="deleteArticulo(articulo.id_articulo)">
                         <i class="far fa-trash-alt"></i>
                     </button>
                 </div>
-            </div>
-        </div>
-    </div>
-    
-    
-    <div class="card tex-center">
-        <div class="car-header bg-dark text-white d-flex justify-content-between align-items-center">
-            {{articulo.nombre}}
-            <!-- Boton con icono de eliminar btn-danger  -->
-            <button class="btn btn-danger" (click)="deleteArticulo(articulo.id_articulo)">
-                <i class="far fa-trash-alt"></i>
-            </button>
-        </div>
-        <!-- forma alternativa de imagenes  -->
-        <!-- <img src="{{game.image}}" class="card-img-top" alt=""> -->
-        <!-- una directiva para angular sepa que se esta pasando una imagen  -->
-        <img [src]="articulo.imagen" class="card-img-top" alt="">
-        <div class="card-body">
-            <p>{{articulo.stock}}</p>
-            <!-- consulta si esta funcionando bien recuperando el id  -->
-            <!-- <a class="btn btn-info btn-block" (click)="editGame(game.id)">Editar juego</a> -->
-            <!-- Redireciona a la ruta /games/edit directamente con el id que se obtiene  -->
-            <a [routerLink]="['/articulos/edit/',articulo.id_articulo]" class="btn btn-info btn-block">Editar articulo</a> 
-        </div> 
+                <div class="Cell" style="background-color: rgb(109, 153, 173);">
+                    <a [routerLink]="['/articulos/edit/',articulo.id_articulo]" class="fas fa-edit">Editar</a>
+                </div>
+            </div>        
     </div>
 </div>
