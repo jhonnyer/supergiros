@@ -1,0 +1,51 @@
+<div class="col-md-4 offset-md-2">
+    <div class="card">
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <input type="text" name="nombre" [(ngModel)]="articulo.nombre" class="form-control" placeholder="Nombre" autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="AF" [(ngModel)]="articulo.AF" class="form-control" placeholder="Activo Fijo" autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="serie" [(ngModel)]="articulo.serie" class="form-control" placeholder="Serie" autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="stock" [(ngModel)]="articulo.stock" class="form-control" placeholder="Stock" autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="id_cat1" name="id_cat1" [(ngModel)]="articulo.id_cat1" class="form-control" placeholder="Categoria" autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="id_persona2" name="id_id_persona2" [(ngModel)]="articulo.id_persona2" class="form-control" placeholder="Persona encargada" autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="id_pdv1" name="id_pdv1" [(ngModel)]="articulo.id_pdv1" class="form-control" placeholder="Punto de venta" autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="url" name="imagen" [(ngModel)]="articulo.imagen"  class="form-control" placeholder="Imágen">
+                </div>
+                <!-- Si edit es true se va a actualizar el juego, si es falso se va a guardar un nuevo juego, llama funcion saveNewGame   -->
+                <!-- <button class="btn btn-success btn-block" (click)="edit ? updateGame(): saveNewGame()">Guardar</button> -->
+                <button class="btn btn-success btn-block" (click)="updateArticulo()">Guardar</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Espejo de tarjeta creada  -->
+<div class="col-md-4">
+    <div class="card card-body text-center">
+        <!-- si no hay imagen coloca una imagen por defecto, noImagen.png, caso contrario muestra la guardada en el formulario  -->
+        <img [src]="articulo.imagen == '' ? '/assets/noImagen.png': articulo.imagen" class="card-img-top">
+        <h3>{{articulo.id_articulo}}. {{articulo.nombre == '' ? 'Nombre' :articulo.nombre}}</h3>
+        <!-- <p>{{articulo.AF == '' ? 'Escribe el activo fijo del articulo' :articulo.AF}}</p> -->
+        <p>{{articulo.AF==0  ? 'Activo Fijo del articulo' :articulo.AF}}</p>
+        <p>{{articulo.serie == '' ? 'Escribe el serial del articulo' :articulo.serie}}</p>
+        <p>{{articulo.stock == 0 ? 'Número de articulos añadidos' :articulo.stock}}</p>
+        <p>{{articulo.id_cat1 == 0 ? 'Categoria del articulo' :articulo.id_cat1}}</p>
+        <p>{{articulo.id_persona2 == 0 ? 'Persona encargada' :articulo.id_persona2}}</p>
+        <p>{{articulo.id_pdv1 == 0 ? 'Punto de venta' :articulo.id_pdv1}}</p>
+    </div>
+</div>
