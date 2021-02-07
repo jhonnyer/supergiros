@@ -3,10 +3,21 @@ import pool from '../database';
 // import { catchError } from 'rxjs/operators';
 // CJS
 
+// nombre?: string;
+//     AF?:number;
+//     serie?:string;
+//     imagen?:string;
+//     stock?:number;
+//     id_cat1?:number;
+//     id_estado1?:number;
+//     id_persona2?:number;
+//     id_pdv1?:number;
+
 class ArticulosController{
     public async list(req: Request, res: Response){
-        await pool.query('SELECT * FROM articulo', function (err, articulo, fields)
-        // res.json(CircularJSON.stringify(games));
+        // await pool.query('SELECT ar.nombre, ar.AF, ar.serie, ar.imagen, ar.stock, ar.id_estado1, ar.id_pdv1, pdv.centro_costo, es.estado FROM articulo ar INNER JOIN PDV pdv on ar.id_pdv1=pdv.id_pdv LEFT JOIN estado es on ar.id_estado1=es.id_estado', function (err, articulo, fields)
+        await pool.query('SELECT * FROM articulo ar INNER JOIN PDV  pdv on ar.id_pdv1=pdv.id_pdv INNER JOIN estado  es on ar.id_estado1=es.id_estado INNER JOIN persona per on ar.id_persona2=per.id_persona', function (err, articulo, fields)
+        // // res.json(CircularJSON.stringify(games));
         {
             if(err) throw err;
             res.json(articulo);

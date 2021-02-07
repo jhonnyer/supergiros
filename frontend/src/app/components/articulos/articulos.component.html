@@ -13,24 +13,42 @@
                     <p>Serie</p>
                 </div>
                 <div class="Cell">
+                    <p>PDV</p>
+                </div>
+                <div class="Cell">
+                    <p>Encargado</p>
+                </div>
+                <div class="Cell">
+                    <p>Estado</p>
+                </div>
+                <div class="Cell">
                     <p>Eliminar</p>
                 </div>
                 <div class="Cell">
                     <p>Editar</p>
                 </div>
             </div> 
-            <div class="Row" *ngFor="let articulo of articulos">
-                <!-- <div class="Cell">
+            <div class="Row" *ngFor="let articulo of articulos; let i=index">
+                    <!-- <div class="Cell">
                     <img [src]="articulo.imagen" class="card-img-top" alt="">
                 </div> -->
                 <div class="Cell">
-                    <p>{{articulo.nombre}}</p>
+                    <p>{{i}}.  {{articulo.articulo}}</p>
                 </div>
                 <div class="Cell">
                     <p>{{articulo.AF}}</p>
                 </div>
                 <div class="Cell">
                     <p>{{articulo.serie}}</p>
+                </div> 
+                <div class="Cell">
+                    <p>{{articulo.centro_costo}}</p>
+                </div> 
+                <div class="Cell">
+                    <p>{{articulo.nombre}}</p>
+                </div> 
+                <div class="Cell">
+                    <p>{{articulo.estado}}</p>
                 </div>
                 <div class="Cell" style="background-color:  rgb(145, 58, 58);">
                     <button class="cell btn btn-danger" (click)="deleteArticulo(articulo.id_articulo)">

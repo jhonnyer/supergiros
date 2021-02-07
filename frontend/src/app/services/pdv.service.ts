@@ -2,38 +2,35 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 // importar la interfaz del modelo 
-import {Articulo} from '../models/Articulo';
-import {Estado} from '../models/Estado';
 import {PDV} from '../models/PDV';
 import {Observable} from 'rxjs';
-import { ReturnStatement } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ArticulosService {
+export class PdvService {
 
   API_URI='http://localhost:3500/supergiros'
 
   constructor(private http:HttpClient) { }
 
   // consultar juegos disponibles 
-  getArticulos(){
+  getPDVs(){
     // return this.http.get('http://localhost:3000/api/games');
-    return this.http.get(this.API_URI+'/articulos');
+    return this.http.get(this.API_URI+'/pdv');
   }
   // Consultar un juego por un id 
-  getArticulo(id:string){
-    return this.http.get(this.API_URI+'/articulos/'+id);
+  getPDV(id:string){
+    return this.http.get(this.API_URI+'/pdv/'+id);
   }
 
   // guardar un juego, debe cumplir con la interfaz del modelo
-  saveArticulo(articulo:Articulo){
-    return this.http.post(this.API_URI+'/articulos',articulo);
+  savePDV(pdv:PDV){
+    return this.http.post(this.API_URI+'/pdv',pdv);
   }
   // Eliminar juego 
-  deleteArticulo(id:string){
-    return this.http.delete(this.API_URI+'/articulos/'+id);
+  deletePDV(id:string){
+    return this.http.delete(this.API_URI+'/pdv/'+id);
   }
   // Actualizar juego 
   // updateGame(id:string|number, updateGame:Game){
@@ -43,8 +40,8 @@ export class ArticulosService {
   //   return this.http.put(this.API_URI+'/games/${id})', updateGame);
   // }
 
-  updateArticulo(id:string|number, updateArticulo:Articulo):Observable<Articulo>{
-    return this.http.put(this.API_URI+'/articulos/'+id,updateArticulo);
+  updatePDV(id:string|number, updatePDV:PDV):Observable<PDV>{
+    return this.http.put(this.API_URI+'/pdv/'+id,updatePDV);
   // updateGame(game:Game){
   //   return this.http.post(this.API_URI+'/games',game);
   }

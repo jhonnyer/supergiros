@@ -1,6 +1,7 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 // Importar modelo 
 import {Articulo} from 'src/app/models/Articulo';
+import {PDV} from 'src/app/models/PDV';
 // importar servicio API 
 import {ArticulosService} from '../../services/articulos.service';
 // Importar router para enrutar a otras vistas 
@@ -30,6 +31,14 @@ export class EditArticulosComponent implements OnInit {
     id_persona2:0,
     id_pdv1:0
    };
+  
+  pdv:PDV={
+    id_pdv:0,
+    centro_costo:'',
+    cod_pdv:0,
+    IP:'',
+    id_person1:0
+}
 
 
   // formulario de validacion de datos si un juego esta creado para editar 

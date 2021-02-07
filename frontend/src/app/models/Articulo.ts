@@ -1,7 +1,7 @@
 export interface Articulo{
     // simbolo ? significa que el dato no es requerido 
     id_articulo?: number;
-    nombre?: string;
+    articulo?: string;
     AF?:number;
     serie?:string;
     imagen?:string;
